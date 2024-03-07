@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://ncc.nioint.com/assets/logo.d3af78b8.png">
+    <link rel="icon" href="https://ncc.nioint.com/assets/logo.d3af78b8.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="https://ncc.nioint.com/assets/logo.d3af78b8.png" type="image/x-icon"/>
+    <meta charset="UTF-8">
+    <title>NIO Cron Tab Utils Of Customer Service Test</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid" style="display: block">
+    <!--页头-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <img data-v-172495a6="" src="https://ncc.nioint.com/assets/logo.d3af78b8.png"
+                     style="width: 55px;height: 55px;display: block">
+                <h1 style="width: 50%;margin-left: 8px">NIO<small style="margin-left: 1%">Cron Tab Utils Of Customer
+                        Service Test </small></h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button id="new" type="button" class="btn btn-primary">NEW</button>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table id="job-list" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>COMMAND</th>
+                            <th>CRON EXPR</th>
+                            <th>OPERATE</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--这是一个任务-->
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ID="edit-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">EDIT</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="edit-name">NAME</label>
+                        <input type="text" disabled class="form-control" id="edit-name" placeholder="NAME">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-command">COMMAND</label>
+                        <input type="text" class="form-control" id="edit-command" placeholder="shell">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-cronExpr">CRON EXPR</label>
+                        <input type="text" class="form-control" id="edit-cronExpr" placeholder="CRON EXPR">
+                    </div>
+                </form>
+
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-job">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div ID="new-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">NEW</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="edit-name">NAME</label>
+                        <input type="text" class="form-control" id="new-name" placeholder="NAME">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-command">COMMAND</label>
+                        <input type="text" class="form-control" id="new-command" placeholder="shell">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-cronExpr">CRON EXPR</label>
+                        <input type="text" class="form-control" id="new-cronExpr" placeholder="CRON EXPR">
+                    </div>
+                </form>
+
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="new-job">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div ID="del-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">确认删除</h4>
+            </div>
+            <div class="modal-body">
+                <p>确认删除</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="url"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="new-job" onclick="handleSubmit()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div ID="log-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">任务日志</h4>
+            </div>
+            <div class="modal-body">
+                <table id="log-list" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>shell</th>
+                        <th>err info</th>
+                        <th>log out</th>
+                        <th>start time</th>
+                        <th>end time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="url"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    function handleSubmit() {
+        const url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+        console.log(url)
+    }
+
+    function handleDelete(name) {
+        $('#url').val(name);
+        $('#del-modal').modal('show')
+    }
+
+    //页面加载完成后,回调函数
+    $(document).ready(function () {
+//1,绑定按钮的事件处理函数
+//用javascript委托机制,DOM事件冒泡的一个关键原理
+        $("#job-list").on("click", ".edit-job", function (event) {
+            console.log(event)
+            $('#edit-modal').modal('show')
+            $('#edit-name').val($(this).parents('tr').children('.job-name').text())
+            $('#edit-command').val($(this).parents('tr').children('.job-command').text())
+            $('#edit-cronExpr').val($(this).parents('tr').children('.job-cronExpr').text())
+
+        })
+
+        $("#new").on("click", function (event) {
+            console.log(event)
+            $('#new-modal').modal('show')
+        })
+
+        $("#job-list").on("click", ".delete-job", function (event) {
+            console.log(event)
+            var jobName = $(this).parents("tr").children(".job-name").text()
+            $.post({
+                url: 'job/delete',
+                dataType: 'json',
+                // json嵌套发送
+                data: JSON.stringify({job_name: jobName}),
+                complete: function () {
+                    window.location.reload()
+                }
+            })
+        })
+        // $("#job-list").on("click", ".delete-job", function (event) {
+        //     console.log(this)
+        //    $('#del-modal').modal('show')
+        //
+        // })
+        $("#job-list").on("click", ".kill-job", function (event) {
+            console.log(event)
+            var jobName = $(this).parents("tr").children(".job-name").text()
+            $.post({
+                url: 'job/kill',
+                dataType: 'json',
+                // json嵌套发送
+                data: JSON.stringify({job_name: jobName}),
+                complete: function () {
+                    // window.location.reload()
+                }
+            })
+        })
+        $("#job-list").on("click", ".log-job", function (event) {
+            $('#log-modal').modal('show')
+            $('#log-list tbody').empty()
+            var jobName = $(this).parents("tr").children(".job-name").text()
+            $.post({
+                url: 'job/log/',
+                dataType: 'json',
+                // json嵌套发送
+                data: JSON.stringify({job_name: jobName}),
+                complete: function (resp) {
+                    // window.location.reload()
+                    if (resp.responseJSON.is_ok != true) {
+                        console.log("231312")
+                        return
+                    }
+                    var logList = resp.responseJSON.data
+                    for (var i = 0; i < logList.length; ++i) {
+                        var log = logList[i]
+                        var tr = $('<tr>')
+                        tr.append($('<td>').html(log.shell))
+                        tr.append($('<td>').html(log.err))
+                        tr.append($('<td>').html(log.out_put))
+                        tr.append($('<td>').html(log.start_time))
+                        tr.append($('<td>').html(log.end_time))
+                        $('#log-list tbody').append(tr)
+                    }
+
+
+                }
+            })
+        })
+        $("#save-job").on("click", function (event) {
+            var jobinfo = {
+                job_name: $('#edit-name').val(),
+                shell: $('#edit-command').val(),
+                cron_expr: $('#edit-cronExpr').val()
+            }
+
+            $.post({
+                url: 'job/save',
+                dataType: 'json',
+                // json嵌套发送
+                data: JSON.stringify(jobinfo),
+                complete: function () {
+                    window.location.reload()
+                }
+            })
+        })
+        $("#new-job").on("click", function (event) {
+            var jobinfo = {
+                job_name: $('#new-name').val(),
+                shell: $('#new-command').val(),
+                cron_expr: $('#new-cronExpr').val()
+            }
+
+            $.post({
+                url: 'job/save',
+                dataType: 'json',
+                // json嵌套发送
+                data: JSON.stringify(jobinfo),
+                complete: function () {
+                    window.location.reload()
+                }
+            })
+        })
+
+
+        function rebuildJobList() {
+//job/list
+            $.ajax({
+                url: 'job/list',
+                dataType: 'json',
+                success: function (resp) {
+                    if (resp.is_ok != true) {
+                        return
+                    }
+                    var jobList = resp.data
+
+                    $('#job-list tbody').empty()
+
+                    for (var i = 0; i < jobList.length; ++i) {
+                        var job = jobList[i];
+                        var tr = $("<tr>");
+                        tr.append($('<td class= "job-name">').html(job.job_name));
+                        tr.append($('<td class="job-command">').html(job.shell));
+                        tr.append($('<td class="job-cronExpr">').html(job.cron_expr));
+                        let job_name = job.job_name
+                        console.log(job_name)
+                        const toolbar = $('<div class="btn-toolbar">')
+                            .append('<button class="btn btn btn-success edit-job">edit</button>')
+                            .append('<button id="del-job" class="btn btn btn-warning delete-job">delete</button>')
+                            .append('<button class="btn btn-danger kill-job">kill</button>')
+                            .append('<button class="btn btn-info log-job">log</button>')
+                        tr.append($('<td>').append(toolbar))
+                        $("#job-list tbody").append(tr)
+
+                    }
+
+                }
+
+            })
+
+        }
+
+        rebuildJobList()
+    })
+
+</script>
+
+</body>
+<style>
+    .page-header {
+        margin-top: 2%;
+        display: flex;
+        padding-bottom: 9px;
+        /*margin: 40px 0 20px;*/
+        border-bottom: 1px solid #eee;
+        align-items: center;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #00bebe;
+        border-color: #00bebe;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #00bebe;
+        border-color: #00bebe;
+    }
+
+    .btn-info {
+        color: #fff;
+        background-color: #00bebe;
+        border-color: #00bebe;
+    }
+</style>
+</html>

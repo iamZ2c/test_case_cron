@@ -1,0 +1,12 @@
+[
+    {
+        "resource":"[TASK_SERVER_GET_LIST]",
+        "stat_interval_in_ms":10,
+        "threshold":1
+    },{
+        "resource":"[TASK_INDEX_HTML]",
+        "stat_interval_in_ms":100,
+        "threshold":1
+    }
+]
+
